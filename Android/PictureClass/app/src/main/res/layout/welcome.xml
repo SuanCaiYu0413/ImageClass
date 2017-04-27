@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/welcome"
+        android:paddingTop="160dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/img_wel" />
+    <TextView
+        android:layout_width="300dp"
+        android:id="@+id/wel_title"
+        android:gravity="center"
+        android:textColor="#000"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/img_wel"
+        android:textSize="20sp"
+        android:text="你愿意帮助我们吗？"/>
+    <TextView
+        android:layout_width="300dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:id="@+id/wel_subtitle"
+        android:layout_below="@+id/wel_title"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:text="为人工智能的进步贡献我们的一份力吧！"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/wel_subtitle"
+        android:id="@+id/LodinReg"
+        android:background="@drawable/button_style"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="登录/注册"/>
+</RelativeLayout>

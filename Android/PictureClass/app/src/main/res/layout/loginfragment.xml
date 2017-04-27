@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:id="@+id/login_fragment_id">
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/username">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="14sp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:background="@drawable/bg_edittext"
+            android:hint="用户名"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/password">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="密码"
+            android:textSize="14sp"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:background="@drawable/bg_edittext"
+            android:inputType="textPassword"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:text="登录"
+        android:id="@+id/btn_login"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/button_style"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:background="@null"
+        android:id="@+id/btn_forget"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_gravity="right"
+        android:text="忘记密码?"
+        android:textColor="#4169E1"/>
+</LinearLayout>
