@@ -21,6 +21,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.register,container,false);
         mainActivity = (MainActivity) getActivity();
         mainActivity.btnRight.setText("");
+        mainActivity.title.setText("注册");
         mainActivity.btnRight.setOnClickListener(null);
         Button btn_register = (Button) view.findViewById(R.id.btn_register);
         btn_register.setOnClickListener(this);

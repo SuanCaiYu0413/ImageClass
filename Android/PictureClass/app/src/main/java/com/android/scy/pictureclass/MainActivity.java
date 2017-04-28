@@ -1,5 +1,7 @@
 package com.android.scy.pictureclass;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,10 +18,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout mDrawerLayout;
+    private Context context;
     NavigationView mNavigationView;
     Toolbar toolbar;
     Button btnRight;
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         title = (TextView) findViewById(R.id.app_title);
         btnRight = (Button) findViewById(R.id.btnRight);
+        context = getApplicationContext();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setCheckedItem(R.id.me);
@@ -44,6 +49,22 @@ public class MainActivity extends AppCompatActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.me:
+                        Toast.makeText(context,"个人中心",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.yiimg:
+                        Toast.makeText(context,"已打图片",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context,SetLabel.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.LableTree:
+                        Toast.makeText(context,"标签树",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.About:
+                        Toast.makeText(context,"关于",Toast.LENGTH_SHORT).show();
+                        break;
+                }
                 mDrawerLayout.closeDrawers();
                 return true;
             }
