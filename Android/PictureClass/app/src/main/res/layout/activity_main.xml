@@ -35,7 +35,7 @@
                     android:id="@+id/btnRight"
                     android:textSize="17sp"
                     android:layout_gravity="right"
-                    android:background="@color/colorPrimary"
+                    android:textColor="@color/btn_word_color"
                     style="?android:attr/borderlessButtonStyle" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>

@@ -37,6 +37,6 @@
         android:layout_below="@+id/wel_subtitle"
         android:id="@+id/LodinReg"
         android:background="@drawable/button_style"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/btn_word_color"
         android:text="登录/注册"/>
 </RelativeLayout>

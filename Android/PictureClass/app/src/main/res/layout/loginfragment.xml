@@ -42,7 +42,7 @@
         android:text="登录"
         android:id="@+id/btn_login"
         android:gravity="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/btn_word_color"
         android:background="@drawable/button_style"/>
     <Button
         android:layout_width="wrap_content"

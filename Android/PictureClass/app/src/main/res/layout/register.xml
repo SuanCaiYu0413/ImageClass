@@ -54,6 +54,6 @@
         android:text="注册"
         android:id="@+id/btn_register"
         android:gravity="center"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/btn_word_color"
         android:background="@drawable/button_style"/>
 </LinearLayout>

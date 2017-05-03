@@ -1,29 +1,26 @@
 package com.android.scy.pictureclass;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Explode;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AbsoluteLayout;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import Controls.FixGridLayout;
+import Model.PictureInfo;
 
 
 public class SetLabel extends AppCompatActivity {
@@ -46,6 +43,10 @@ public class SetLabel extends AppCompatActivity {
     }
 
     private void initActivity() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setEnterTransition(new Explode().setDuration(500));
+            getWindow().setExitTransition(new Explode().setDuration(500));
+        }
         imgShow = (ImageView) findViewById(R.id.img_show);
         ly = (RelativeLayout) findViewById(R.id.set_layout);
         ontouch = new Point(0,0);
@@ -168,5 +169,4 @@ public class SetLabel extends AppCompatActivity {
             return false;
         }
     }
-
 }

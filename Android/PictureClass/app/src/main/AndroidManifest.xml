@@ -24,7 +24,11 @@
         <activity
             android:name=".AddLabelDiglog"
             android:theme="@style/MyDialogStyle" />
-        <activity android:name=".HistoryLabelActivity"></activity>
+        <activity
+            android:name=".HistoryLabelActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".UCenterActivity"
+            android:theme="@style/AppTheme" ></activity>
     </application>
 
 </manifest>

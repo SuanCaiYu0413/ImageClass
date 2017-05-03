@@ -1,4 +1,4 @@
-package com.android.scy.pictureclass;
+package Model;
 
 /**
  * Created by Administrator on 2017/4/28.
