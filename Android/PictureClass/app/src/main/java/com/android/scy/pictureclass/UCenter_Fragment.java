@@ -1,5 +1,6 @@
 package com.android.scy.pictureclass;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -20,8 +22,9 @@ import Model.ResultItem;
  * Created by Administrator on 2017/5/3.
  */
 
-public class UCenter_Fragment extends Fragment {
-    MainActivity mainActivity;
+public class UCenter_Fragment extends Fragment implements AdapterView.OnItemClickListener {
+    private MainActivity mainActivity;
+    private List<ResultItem> itemList;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class UCenter_Fragment extends Fragment {
                 mainActivity.mDrawerLayout.openDrawer(GravityCompat.START);
             }
         });
-        List itemList = new ArrayList<ResultItem>();
+        itemList = new ArrayList<ResultItem>();
         ResultItem header = new ResultItem(0,"来到南航我们吃啥子",R.drawable.header);
         ResultItem placeholder1 = new ResultItem(2,"",0);
         ResultItem modify = new ResultItem(1,"信息修改",R.drawable.modify);
@@ -60,5 +63,15 @@ public class UCenter_Fragment extends Fragment {
         Log.d("debug",lv + "");
         UCenterAdapter adapter = new UCenterAdapter(getContext(),itemList);
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        ResultItem item = itemList.get(i);
+        if(item.getTitle().equals("清理缓存")){
+            Intent intent = new Intent(mainActivity,CleanCacheDiglog.class);
+            startActivity(intent);
+        }
     }
 }

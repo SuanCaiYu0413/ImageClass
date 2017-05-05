@@ -33,6 +33,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 mainActivity.getSupportFragmentManager().popBackStack();
+                mainActivity.imm.hideSoftInputFromWindow(mainActivity.mDrawerLayout.getWindowToken(), 0);
             }
         });
         Button btn_login = (Button) view.findViewById(R.id.btn_login);
@@ -46,7 +47,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_forget:
-                Toast.makeText(mainActivity, "忘记密码按钮被单击", Toast.LENGTH_SHORT).show();
+                new ReplaceFragment(mainActivity,new Forget_Password_Fragment(),0).load();
                 break;
             case R.id.btn_login:
                 Toast.makeText(mainActivity, "登录按钮被单击", Toast.LENGTH_SHORT).show();

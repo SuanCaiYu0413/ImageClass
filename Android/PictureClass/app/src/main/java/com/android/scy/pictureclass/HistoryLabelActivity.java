@@ -46,7 +46,7 @@ public class HistoryLabelActivity extends AppCompatActivity {
             pics.add(c);
             HistoryLabel d = new HistoryLabel();
             d.setImgname("图4_"+i);
-            d.setUrl("http://mvimg2.meitudata.com/56074c97d79468889.jpg");
+            d.setUrl("http://mvimg2.meitudata.com/561086d22691c8272.jpg");
             d.setLabel(new String[]{"哈哈哈","嘿嘿","axxxx"});
             pics.add(d);
         }

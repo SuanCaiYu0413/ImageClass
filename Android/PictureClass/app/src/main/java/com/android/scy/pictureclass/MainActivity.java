@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -31,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button btnRight;
     TextView title;
+    InputMethodManager imm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         initActivty();
         new ReplaceFragment(this,new WelcomeFragment(),1).load();
     }
@@ -55,20 +58,22 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.me:
                         Toast.makeText(context,"个人中心",Toast.LENGTH_SHORT).show();
+                        new ReplaceFragment(MainActivity.this,new UCenter_Fragment(),0).load();
                         break;
-                    case R.id.yiimg:
-                        Toast.makeText(context,"已打图片",Toast.LENGTH_SHORT).show();
+                    case R.id.biaoqian:
                         Intent intent = new Intent(context,SetLabel.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                         }
                         break;
-                    case R.id.LableTree:
-                        Toast.makeText(context,"标签树",Toast.LENGTH_SHORT).show();
+                    case R.id.yiimg:
                         Intent intent_history = new Intent(context,HistoryLabelActivity.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             startActivity(intent_history,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                         }
+                        break;
+                    case R.id.LableTree:
+                        Toast.makeText(context,"标签树",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.About:
                         Toast.makeText(context,"关于",Toast.LENGTH_SHORT).show();
@@ -84,15 +89,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if(keyCode == KeyEvent.KEYCODE_BACK){
-//            if(mDrawerLayout != null){
-//                mDrawerLayout.closeDrawers();
-//            }
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if(mDrawerLayout != null){
+                mDrawerLayout.closeDrawers();
+            }
+            int num = getSupportFragmentManager().getBackStackEntryCount();
+            if(num > 0){
+                getSupportFragmentManager().popBackStack();
+            }else {
+                finish();
+            }
+
+            imm.hideSoftInputFromWindow(mDrawerLayout.getWindowToken(), 0);
+        }
+        return false;
+    }
 
     @Override
     protected void onPause() {

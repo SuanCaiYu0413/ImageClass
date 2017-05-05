@@ -128,7 +128,7 @@ public class SetLabel extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    lastX = (int) event.getRawX();// 获取触摸事件触摸位置的原始X坐标
+                    lastX = (int) event.getRawX();
                     lastY = (int) event.getRawY();
                     return true;
                 case MotionEvent.ACTION_MOVE:
@@ -138,8 +138,7 @@ public class SetLabel extends AppCompatActivity {
                     int b = v.getBottom() + dy;
                     int r = v.getRight() + dx;
                     int t = v.getTop() + dy;
-                    // 下面判断移动是否超出屏幕
-                    if (l < +imgShow.getLeft()) {
+                    if (l < imgShow.getLeft()) {
                         l = +imgShow.getLeft();
                         r = l + v.getWidth();
                     }

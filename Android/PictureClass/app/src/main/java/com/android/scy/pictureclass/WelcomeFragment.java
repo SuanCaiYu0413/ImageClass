@@ -43,7 +43,7 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.LodinReg:
-                new ReplaceFragment(mainActivity,new UCenter_Fragment(),0).load();
+                new ReplaceFragment(mainActivity,new LoginFragment(),0).load();
                 break;
             default:
                 break;

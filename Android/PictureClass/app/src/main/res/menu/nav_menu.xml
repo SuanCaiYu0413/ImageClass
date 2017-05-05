@@ -6,6 +6,10 @@
             android:icon="@drawable/me"
             android:title="个人中心" />
         <item
+            android:id="@+id/biaoqian"
+            android:icon="@drawable/label"
+            android:title="打标签"/>
+        <item
             android:id="@+id/yiimg"
             android:icon="@drawable/img"
             android:title="已打图片"/>

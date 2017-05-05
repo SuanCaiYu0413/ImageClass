@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:scaleType="centerInside"
             android:id="@+id/img_history"
+            android:src="@drawable/header"
             android:adjustViewBounds="true"
             android:layout_height="wrap_content" />
         <TextView
