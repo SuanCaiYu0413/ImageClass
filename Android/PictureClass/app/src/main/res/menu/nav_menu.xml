@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/me"
+            android:icon="@drawable/me"
+            android:title="个人中心" />
+        <item
+            android:id="@+id/biaoqian"
+            android:icon="@drawable/label"
+            android:title="打标签"/>
+        <item
+            android:id="@+id/yiimg"
+            android:icon="@drawable/img"
+            android:title="已打图片"/>
+        <item
+            android:id="@+id/LableTree"
+            android:icon="@drawable/tree"
+            android:title="标签树"/>
+        <item
+            android:id="@+id/About"
+            android:icon="@drawable/about"
+            android:title="关于"/>
+    </group>
+</menu>
