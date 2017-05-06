@@ -10,28 +10,26 @@
         android:layout_width="match_parent"
         android:layout_marginTop="60dp"
         android:layout_height="wrap_content"
-        android:id="@+id/username">
-        <EditText
+        android:id="@+id/login_username">
+        <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textSize="14sp"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:background="@drawable/bg_edittext"
-            android:hint="用户名"/>
+            android:hint="手机号"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:id="@+id/password">
-        <EditText
+        android:id="@+id/login_password">
+        <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="密码"
             android:textSize="14sp"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:background="@drawable/bg_edittext"
             android:inputType="textPassword"/>
     </android.support.design.widget.TextInputLayout>
 

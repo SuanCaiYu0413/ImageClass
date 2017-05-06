@@ -23,31 +23,32 @@
                 android:layout_height="40dp"
                 android:textSize="14sp"
                 android:hint="请输入您的手机号"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:background="@drawable/bg_edittext"/>
+                android:inputType="number"
+                android:textCursorDrawable="@drawable/color_cursor" />
         </android.support.design.widget.TextInputLayout>
         <Button
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:text="发送验证码"
+            android:id="@+id/register_btn_sendcode"
             android:textColor="@color/btn_word_color"
             android:background="@drawable/send_phone_code_btn_style"
-            android:layout_margin="0dp"
-            />
+            android:layout_margin="0dp" />
     </LinearLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:id="@+id/phone_code">
+        android:id="@+id/reg_code">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textSize="14sp"
             android:hint="请输入验证码"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:background="@drawable/bg_edittext"/>
+            android:inputType="number"
+            android:textCursorDrawable="@drawable/color_cursor" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -59,8 +60,7 @@
             android:layout_height="40dp"
             android:textSize="14sp"
             android:hint="用户名"
-            android:textCursorDrawable="@drawable/color_cursor"
-            android:background="@drawable/bg_edittext"/>
+            android:textCursorDrawable="@drawable/color_cursor" />
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -73,8 +73,7 @@
             android:hint="密码"
             android:textSize="14sp"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:inputType="textPassword"
-            android:background="@drawable/bg_edittext"/>
+            android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
