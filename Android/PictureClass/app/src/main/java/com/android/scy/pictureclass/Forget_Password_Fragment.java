@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Public_Class.Input_Text_Chack;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2017/5/5.
@@ -24,15 +26,16 @@ import Public_Class.Input_Text_Chack;
 
 public class Forget_Password_Fragment extends Fragment {
     private MainActivity mainActivity;
-    private TextInputLayout phone;
-    private TextInputLayout code;
-    private Button btnOk;
+    @BindView(R.id.forget_password_phone) TextInputLayout phone;
+    @BindView(R.id.forget_password_phone_code) TextInputLayout code;
+    @BindView(R.id.forget_password_btn_ok) Button btnOk;
+    @BindView(R.id.forget_password_new_password) TextInputLayout newPassword;
     private List chackList;
-    private TextInputLayout newpassword;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.forget_password_fragment,container,false);
+        ButterKnife.bind(this,v);
         chackList = new ArrayList<Boolean>();
         chackList.add(false);
         chackList.add(false);
@@ -40,14 +43,10 @@ public class Forget_Password_Fragment extends Fragment {
         mainActivity = (MainActivity) getActivity();
         mainActivity.toolbar.setNavigationIcon(R.drawable.back);
         mainActivity.title.setText("找回密码");
-        btnOk = (Button) v.findViewById(R.id.forget_password_btn_ok);
         btnOk.setOnClickListener(new btnClick());
-        phone = (TextInputLayout) v.findViewById(R.id.forget_password_phone);
-        code = (TextInputLayout) v.findViewById(R.id.forget_password_phone_code);
-        newpassword = (TextInputLayout) v.findViewById(R.id.forget_password_new_password);
         phone.getEditText().addTextChangedListener(new editPhone(R.id.forget_password_phone));
         code.getEditText().addTextChangedListener(new editPhone(R.id.forget_password_phone_code));
-        newpassword.getEditText().addTextChangedListener(new editPhone(R.id.forget_password_new_password));
+        newPassword.getEditText().addTextChangedListener(new editPhone(R.id.forget_password_new_password));
         return v;
     }
 
@@ -104,19 +103,19 @@ public class Forget_Password_Fragment extends Fragment {
                 case R.id.forget_password_new_password:
                     switch (Input_Text_Chack.chackPassWord(editable.toString())){
                         case Input_Text_Chack.STR_NULL:
-                            newpassword.setError("值不能为空");
+                            newPassword.setError("值不能为空");
                             chackList.set(2,false);
                             break;
                         case Input_Text_Chack.STR_LOW:
-                            newpassword.setError("密码位数不能少于6位");
+                            newPassword.setError("密码位数不能少于6位");
                             chackList.set(2,false);
                             break;
                         case Input_Text_Chack.STR_HIGH:
-                            newpassword.setError("密码位数不能超过16位");
+                            newPassword.setError("密码位数不能超过16位");
                             chackList.set(2,false);
                             break;
                         default:
-                            newpassword.setErrorEnabled(false);
+                            newPassword.setErrorEnabled(false);
                             chackList.set(2,true);
                             break;
                     }

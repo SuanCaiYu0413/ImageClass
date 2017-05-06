@@ -16,13 +16,18 @@ import java.util.List;
 
 import Adapter.HistoryAdapter;
 import Model.HistoryLabel;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class HistoryLabelActivity extends AppCompatActivity {
     List<HistoryLabel> pics = new ArrayList<>();
+    @BindView(R.id.history_toolbar) Toolbar toolbar;
+    @BindView(R.id.history_recyclerview) RecyclerView mrv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_label);
+        ButterKnife.bind(this);
         initPics();
         initActivity();
     }
@@ -57,15 +62,13 @@ public class HistoryLabelActivity extends AppCompatActivity {
             getWindow().setEnterTransition(new Explode().setDuration(500));
             getWindow().setExitTransition(new Explode().setDuration(500));
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.history_toolbar);
         toolbar.setNavigationIcon(R.drawable.back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HistoryLabelActivity.this.finish();
+                HistoryLabelActivity.this.onDestroy();
             }
         });
-        RecyclerView mrv = (RecyclerView) findViewById(R.id.history_recyclerview);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         mrv.setLayoutManager(layoutManager);
         HistoryAdapter adapter = new HistoryAdapter(pics);

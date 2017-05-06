@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">PictureClass</string>
-    <string name="api_url">http://119.29.194.163/tp/</string>
+    <string name="api_url">http://119.29.194.163/tp/index.php/</string>
 </resources>

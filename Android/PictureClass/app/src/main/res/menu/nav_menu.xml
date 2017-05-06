@@ -8,11 +8,11 @@
         <item
             android:id="@+id/biaoqian"
             android:icon="@drawable/label"
-            android:title="打标签"/>
+            android:title="贴上标签"/>
         <item
             android:id="@+id/yiimg"
             android:icon="@drawable/img"
-            android:title="已打图片"/>
+            android:title="历史标签"/>
         <item
             android:id="@+id/LableTree"
             android:icon="@drawable/tree"

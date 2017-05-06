@@ -1,6 +1,8 @@
 package com.android.scy.pictureclass;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,8 @@ public class UCenter_Fragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ucenter_fragment,container,false);
+
+        Log.d("xxx","asdasd");
         initFragment(view);
         return view;
     }
@@ -47,7 +51,15 @@ public class UCenter_Fragment extends Fragment implements AdapterView.OnItemClic
             }
         });
         itemList = new ArrayList<ResultItem>();
-        ResultItem header = new ResultItem(0,"来到南航我们吃啥子",R.drawable.header);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("userinfo", Context.MODE_PRIVATE);;
+        String userName = sharedPreferences.getString("userName",null);
+        Log.d("xxxxa",userName);
+        ResultItem header;
+        if(userName != null){
+            header = new ResultItem(0,userName,R.drawable.header);
+        }else {
+            header = new ResultItem(0,"来到南航我们吃什么",R.drawable.header);
+        }
         ResultItem placeholder1 = new ResultItem(2,"",0);
         ResultItem modify = new ResultItem(1,"信息修改",R.drawable.modify);
         ResultItem cache = new ResultItem(1,"清理缓存",R.drawable.cache);
@@ -69,9 +81,18 @@ public class UCenter_Fragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         ResultItem item = itemList.get(i);
-        if(item.getTitle().equals("清理缓存")){
-            Intent intent = new Intent(mainActivity,CleanCacheDiglog.class);
-            startActivity(intent);
+        switch (item.getTitle()){
+            case "清理缓存":
+                Intent intent = new Intent(mainActivity,CleanCacheDiglog.class);
+                startActivity(intent);
+                break;
+            case "退出登录":
+                SharedPreferences sharedPreferences =  mainActivity.getSharedPreferences("userinfo",Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = sharedPreferences.edit();
+                edit.putString("sid",null);
+                edit.commit();
+                new ReplaceFragment(mainActivity,new WelcomeFragment(),1).load();
+                break;
         }
     }
 }

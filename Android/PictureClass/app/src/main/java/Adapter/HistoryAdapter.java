@@ -14,14 +14,13 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import Model.HistoryLabel;
-import Model.PictureInfo;
 
 /**
  * Created by Administrator on 2017/5/2.
  */
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
-    private List<HistoryLabel> Pictures;
+    private List<HistoryLabel> pictures;
     private Context mContext;
 
     @Override
@@ -36,19 +35,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        HistoryLabel pic_info = Pictures.get(position);
-        Glide.with(mContext).load(pic_info.getUrl()).into(holder.pic);
-        holder.name.setText(pic_info.getImgname());
+        HistoryLabel picInfo = pictures.get(position);
+        Glide.with(mContext).load(picInfo.getUrl()).into(holder.pic);
+        holder.name.setText(picInfo.getImgname());
         String labels = "";
-        for(int i=0;i<pic_info.getLabel().length;i++){
-            labels += "#" + pic_info.getLabel()[i] + " ";
+        for(int i=0;i<picInfo.getLabel().length;i++){
+            labels += "#" + picInfo.getLabel()[i] + " ";
         }
         holder.labels.setText(labels);
     }
 
     @Override
     public int getItemCount() {
-        return Pictures.size();
+        return pictures.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -63,6 +62,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
     }
     public HistoryAdapter(List<HistoryLabel> pics){
-        Pictures = pics;
+        pictures = pics;
     }
 }

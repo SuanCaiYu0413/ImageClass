@@ -2,6 +2,7 @@ package Public_Class;
 
 import android.content.Context;
 import android.os.Looper;
+import android.util.Log;
 
 import com.android.scy.pictureclass.R;
 
@@ -30,15 +31,15 @@ public class HttpUtil {
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    String urlstr = "";
+                    String urlStr = "";
                     if(method == GET){
-                        urlstr = context.getResources().getString(R.string.api_url) + func + "?" + parma;
+                        urlStr = context.getResources().getString(R.string.api_url) + func + "?" + parma;
                     }else if(method == POST){
-                        urlstr = context.getResources().getString(R.string.api_url) + func;
+                        urlStr = context.getResources().getString(R.string.api_url) + func;
                     }else {
 
                     }
-                    URL url = new URL(urlstr);
+                    URL url = new URL(urlStr);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(8000);
@@ -55,6 +56,7 @@ public class HttpUtil {
                         response.append(line);
                     }
                     Looper.prepare();
+                    Log.d("response",response.toString());
                     listener.onFinish(response.toString());
                     Looper.loop();
                 } catch (MalformedURLException e) {

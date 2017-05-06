@@ -3,6 +3,7 @@ package com.android.scy.pictureclass;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
@@ -24,6 +25,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout mDrawerLayout;
@@ -31,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
     NavigationView mNavigationView;
     Toolbar toolbar;
     Button btnRight;
+    UCenter_Fragment uCenter_fragment;
+    WelcomeFragment welcomeFragment;
+    LoginFragment loginFragment;
+    RegisterFragment registerFragment;
+    Forget_Password_Fragment forget_password_fragment;
     TextView title;
     InputMethodManager imm;
     @Override
@@ -39,7 +48,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         initActivty();
-        new ReplaceFragment(this,new WelcomeFragment(),1).load();
+        SharedPreferences sharedPreferences = getSharedPreferences("userinfo",MODE_PRIVATE);
+        String sid = sharedPreferences.getString("sid",null);
+        if(sid != null){
+            new ReplaceFragment(MainActivity.this,uCenter_fragment==null?uCenter_fragment=new UCenter_Fragment():uCenter_fragment,1).load();
+        }else{
+            new ReplaceFragment(this,welcomeFragment==null?welcomeFragment=new WelcomeFragment():welcomeFragment,1).load();
+        }
+
     }
 
     private void initActivty() {
@@ -58,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.me:
                         Toast.makeText(context,"个人中心",Toast.LENGTH_SHORT).show();
-                        new ReplaceFragment(MainActivity.this,new UCenter_Fragment(),0).load();
+                        new ReplaceFragment(MainActivity.this,uCenter_fragment==null?uCenter_fragment=new UCenter_Fragment():uCenter_fragment,0).load();
                         break;
                     case R.id.biaoqian:
                         Intent intent = new Intent(context,SetLabel.class);

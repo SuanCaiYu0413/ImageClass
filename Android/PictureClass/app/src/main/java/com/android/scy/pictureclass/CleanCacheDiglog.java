@@ -10,16 +10,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CleanCacheDiglog extends AppCompatActivity implements View.OnClickListener {
-    private Button btnOk;
-    private Button btnCancel;
+    @BindView(R.id.cache_clean_text) TextView show;
+    @BindView(R.id.clean_cache_ok) Button btnOk;
+    @BindView(R.id.clean_cache_cancel) Button btnCancel;
     private Cache ch;
     private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clean_cache_diglog);
-        TextView show = (TextView) findViewById(R.id.cache_clean_text);
+        ButterKnife.bind(this);
         String cacheSize = null;
         context = getApplicationContext();
         ch = new Cache();
@@ -38,8 +42,6 @@ public class CleanCacheDiglog extends AppCompatActivity implements View.OnClickL
     }
 
     private void initActivity() {
-        btnCancel = (Button) findViewById(R.id.clean_cache_cancel);
-        btnOk = (Button) findViewById(R.id.clean_cache_ok);
         btnOk.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
     }

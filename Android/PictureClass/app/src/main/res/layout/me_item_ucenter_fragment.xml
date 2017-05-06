@@ -21,6 +21,5 @@
         android:layout_marginLeft="16dp"
         android:textColor="#000"
         android:textSize="17sp"
-        android:id="@+id/uname_ucenter"
-        android:text="来到南航我们吃啥子" />
+        android:id="@+id/uname_ucenter" />
 </LinearLayout>
