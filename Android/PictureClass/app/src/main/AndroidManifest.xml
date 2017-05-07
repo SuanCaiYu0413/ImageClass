@@ -30,6 +30,15 @@
         <activity
             android:name=".CleanCacheDiglog"
             android:theme="@style/MyDialogStyle" />
+        <activity
+            android:name=".Login"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ForgetPassword"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Register"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

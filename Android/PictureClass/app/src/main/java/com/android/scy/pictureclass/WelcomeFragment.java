@@ -1,5 +1,6 @@
 package com.android.scy.pictureclass;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,7 +44,9 @@ public class WelcomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.LodinReg:
-                new ReplaceFragment(mainActivity,new LoginFragment(),ReplaceFragment.END).load();
+//                new ReplaceFragment(mainActivity,new LoginFragment(),ReplaceFragment.END).load();
+                Intent intent = new Intent(mainActivity,Login.class);
+                startActivity(intent);
                 break;
             default:
                 break;
