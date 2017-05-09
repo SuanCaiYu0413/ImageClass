@@ -2,11 +2,14 @@ package com.android.scy.pictureclass;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class Register extends AppCompatActivity {
-    private int taskCount = 60;
+    private int taskCount = 59;
     @BindView(R.id.register_title)
     TextView registerTitle;
     @BindView(R.id.register_btnRight)
@@ -48,6 +53,19 @@ public class Register extends AppCompatActivity {
     @BindView(R.id.btn_register)
     Button btnRegister;
 
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    btnRegister.setText("注册");
+                    btnRegister.setEnabled(true);
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,9 +139,17 @@ public class Register extends AppCompatActivity {
         String phoneNumber = regPhone.getEditText().getText().toString().trim();
         String phoneCode = regCode.getEditText().getText().toString().trim();
         String userName = regUsername.getEditText().getText().toString().trim();
+        btnRegister.setEnabled(false);
+        btnRegister.setText("正在注册...");
+        try {
+            userName = URLEncoder.encode(userName,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         String passWord = regPassword.getEditText().getText().toString().trim();
         String timeStamp = String.valueOf(new Date().getTime()).toString().substring(0,10).trim();
         String postData = "timeStamp="+timeStamp+"&userName="+userName+"&passWord="+passWord+"&phoneNumber="+phoneNumber+"&phoneCode="+phoneCode;
+        Log.d("pads",postData);
         HttpUtil.sendHttpRequest(getApplicationContext(), postData, HttpUtil.POST, "Registered", new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
@@ -132,7 +158,8 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void onError(Exception e) {
-
+                Toast.makeText(getApplicationContext(),"注册失败,未知错误",Toast.LENGTH_SHORT).show();
+                mHandler.sendEmptyMessage(0);
             }
         });
     }
@@ -149,6 +176,7 @@ public class Register extends AppCompatActivity {
                     break;
                 default:
                     StatusCodeDealWith.showDealWith(statusCode,getApplicationContext());
+                    mHandler.sendEmptyMessage(0);
                     break;
             }
         } catch (JSONException e) {
@@ -204,7 +232,7 @@ public class Register extends AppCompatActivity {
         @Override
         public void onTick(long millisUntilFinished) {
             taskCount --;
-            if(taskCount>1){
+            if(taskCount>0){
                 registerBtnSendcode.setText(taskCount+"秒后可以重发");
             }else{
                 taskCount = 60;

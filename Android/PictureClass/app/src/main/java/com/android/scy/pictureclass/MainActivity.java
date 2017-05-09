@@ -3,103 +3,168 @@ package com.android.scy.pictureclass;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.bumptech.glide.Glide;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
+
+import InterFace.HttpCallbackListener;
+import Public_Class.DataCache;
+import Public_Class.HttpUtil;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-
+    final private int DAY_IMG = 0;
+    @BindView(R.id.activity_main)
     DrawerLayout mDrawerLayout;
-    private Context context;
-    NavigationView mNavigationView;
+    @BindView(R.id.day_img)
+    ImageView dayImg;
+    @BindView(R.id.main_desc)
+    TextView mainDesc;
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    Button btnRight;
-    UCenter_Fragment uCenter_fragment;
-    WelcomeFragment welcomeFragment;
-    LoginFragment loginFragment;
-    RegisterFragment registerFragment;
-    Forget_Password_Fragment forget_password_fragment;
+    private Context context;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
+    @BindView(R.id.app_title)
     TextView title;
     InputMethodManager imm;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case DAY_IMG:
+                    Bundle b = msg.getData();
+                    Glide.with(context).load("http://cn.bing.com" + b.get("url").toString()).into(dayImg);
+                    mainDesc.setText(b.getString("desc"));
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
+                WindowManager.LayoutParams. FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        ButterKnife.bind(this);
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         initActivty();
-        SharedPreferences sharedPreferences = getSharedPreferences("userinfo",MODE_PRIVATE);
-        String sid = sharedPreferences.getString("sid",null);
-        if(sid != null){
-            new ReplaceFragment(MainActivity.this,uCenter_fragment==null?uCenter_fragment=new UCenter_Fragment():uCenter_fragment,1).load();
-        }else{
-            new ReplaceFragment(this,welcomeFragment==null?welcomeFragment=new WelcomeFragment():welcomeFragment,1).load();
-        }
+        dayImg();
+    }
 
+    private void dayImg() {
+        String timeStamp = String.valueOf(new Date().getTime());
+        HttpUtil.sendHttpRequest(context, "http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&nc=" + timeStamp + "&pid=hp&video=1", new HttpCallbackListener() {
+            @Override
+            public void onFinish(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("images");
+                    jsonObject = jsonArray.getJSONObject(0);
+                    Message msg = new Message();
+                    Bundle b = new Bundle();
+                    b.putString("url", jsonObject.getString("url"));
+                    b.putString("desc", "    "+jsonObject.getString("copyright"));
+                    msg.setData(b);
+                    msg.what = DAY_IMG;
+                    mHandler.sendMessage(msg);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String userName = DataCache.getString("userName", context);
+        String sid = DataCache.getString("sid", context);
+        String phoneNumber = DataCache.getString("phoneNumber", context);
+        if(!(userName != null && sid != null && phoneNumber != null)){
+            Intent welcome = new Intent(this,Welcome.class);
+            startActivity(welcome);
+            finish();
+        }
     }
 
     private void initActivty() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        title = (TextView) findViewById(R.id.app_title);
-        btnRight = (Button) findViewById(R.id.btnRight);
         context = getApplicationContext();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.activity_main);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mNavigationView.setCheckedItem(R.id.me);
-//        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        title.setText("每日一图");
+        toolbar.setNavigationIcon(R.drawable.skatemenu);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.me:
-                        Toast.makeText(context,"个人中心",Toast.LENGTH_SHORT).show();
-                        new ReplaceFragment(MainActivity.this,uCenter_fragment==null?uCenter_fragment=new UCenter_Fragment():uCenter_fragment,0).load();
+                        Toast.makeText(context, "个人中心", Toast.LENGTH_SHORT).show();
+                        Intent ucenter = new Intent(getApplicationContext(), UCenter.class);
+                        startActivity(ucenter);
                         break;
                     case R.id.biaoqian:
-                        Intent intent = new Intent(context,SetLabel.class);
+                        Intent intent = new Intent(context, SetLabel.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+                            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                         }
                         break;
                     case R.id.yiimg:
-                        Intent intent_history = new Intent(context,HistoryLabelActivity.class);
+                        Intent intent_history = new Intent(context, HistoryLabelActivity.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            startActivity(intent_history,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+                            startActivity(intent_history, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                         }
                         break;
                     case R.id.LableTree:
-                        Toast.makeText(context,"标签树",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "标签树", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.About:
-                        Toast.makeText(context,"关于",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "关于", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 mDrawerLayout.closeDrawers();
                 return true;
             }
         });
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.skatemenu);
         }
@@ -107,14 +172,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            if(mDrawerLayout != null){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mDrawerLayout != null) {
                 mDrawerLayout.closeDrawers();
             }
             int num = getSupportFragmentManager().getBackStackEntryCount();
-            if(num > 0){
+            if (num > 0) {
                 getSupportFragmentManager().popBackStack();
-            }else {
+            } else {
                 finish();
             }
 
@@ -124,14 +189,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mNavigationView.setCheckedItem(R.id.me);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 break;
         }

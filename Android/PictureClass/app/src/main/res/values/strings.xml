@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">PictureClass</string>
+    <string name="app_name">图片分类</string>
     <string name="api_url">http://119.29.194.163/tp/index.php/</string>
 </resources>

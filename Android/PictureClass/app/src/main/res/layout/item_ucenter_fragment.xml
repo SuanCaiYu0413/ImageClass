@@ -16,6 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:id="@+id/item_ucenter_title"
+        android:textColor="#000"
         android:layout_height="wrap_content"
         android:text="相册"/>
 </LinearLayout>

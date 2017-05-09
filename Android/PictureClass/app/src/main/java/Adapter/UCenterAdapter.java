@@ -2,6 +2,7 @@ package Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,7 @@ public class UCenterAdapter extends BaseAdapter {
                 viewHolderOne = (ViewHolderOne) view.getTag();
             }
             Glide.with(context).load(ri.getImg()).into(viewHolderOne.imageView);
+
             viewHolderOne.textView.setText(ri.getTitle());
         }else if(getItemViewType(i) == TYPE_TWO){
             ViewHolderTwo viewHolderTwo;
@@ -77,6 +79,7 @@ public class UCenterAdapter extends BaseAdapter {
             }else{
                 viewHolderTwo = (ViewHolderTwo) view.getTag();
             }
+            viewHolderTwo.textView.setTextColor(Color.BLACK);
             Glide.with(context).load(ri.getImg()).into(viewHolderTwo.imageView);
             viewHolderTwo.textView.setText(ri.getTitle());
         }else if(getItemViewType(i) == TYPE_THERE){

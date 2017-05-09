@@ -7,7 +7,7 @@
             android:title="个人中心" />
         <item
             android:id="@+id/biaoqian"
-            android:icon="@drawable/label"
+            android:icon="@drawable/labelicon"
             android:title="贴上标签"/>
         <item
             android:id="@+id/yiimg"

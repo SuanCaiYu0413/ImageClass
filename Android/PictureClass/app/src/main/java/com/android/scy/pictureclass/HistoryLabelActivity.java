@@ -60,13 +60,13 @@ public class HistoryLabelActivity extends AppCompatActivity {
     private void initActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setEnterTransition(new Explode().setDuration(500));
-            getWindow().setExitTransition(new Explode().setDuration(500));
+            getWindow().setReturnTransition(new Explode().setDuration(500));
         }
         toolbar.setNavigationIcon(R.drawable.back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HistoryLabelActivity.this.onDestroy();
+                finish();
             }
         });
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);

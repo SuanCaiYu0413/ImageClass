@@ -6,48 +6,55 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.scy.pictureclass.MainActivity">
+    tools:context="com.android.scy.pictureclass.MainActivity"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:id="@+id/toolbar"
-                android:background="?attr/colorPrimary"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="17sp"
-                    android:textColor="#FFF"
-                    android:id="@+id/app_title"
-                    android:background="@color/colorPrimary"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnRight"
-                    android:textSize="17sp"
-                    android:layout_gravity="right"
-                    android:textColor="@color/btn_word_color"
-                    style="?android:attr/borderlessButtonStyle" />
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:id="@+id/fragment">
-
-        </LinearLayout>
+            android:id="@+id/main_fragment">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:id="@+id/day_img"/>
+            <TextView
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:background="#34858585"
+                android:id="@+id/main_desc"
+                android:textSize="16sp"
+                android:text="图片描述"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar"
+            android:background="#00000000"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="17sp"
+                android:textColor="#FFF"
+                android:id="@+id/app_title"
+                android:background="#00000000"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRight"
+                android:textSize="17sp"
+                android:layout_gravity="right"
+                android:textColor="@color/btn_word_color"
+                style="?android:attr/borderlessButtonStyle" />
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

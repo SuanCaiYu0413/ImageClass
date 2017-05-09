@@ -42,13 +42,56 @@ public class HttpUtil {
                     }
                     URL url = new URL(urlStr);
                     connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
+                    connection.setRequestMethod(method==POST?"POST":"GET");
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
                     if(method == POST){
                         DataOutputStream out = new DataOutputStream(connection.getOutputStream());
                         out.writeBytes(parma);
                     }
+                    InputStream in = connection.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    StringBuffer response = new StringBuffer();
+                    String line;
+                    while ((line = reader.readLine())!=null){
+                        response.append(line);
+                    }
+                    Looper.prepare();
+                    Log.d("response",response.toString());
+                    listener.onFinish(response.toString());
+                    Looper.loop();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    listener.onError(e);
+                    Looper.loop();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    listener.onError(e);
+                    Looper.loop();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Looper.prepare();
+                    listener.onError(e);
+                    Looper.loop();
+                }
+            }
+        }).start();
+    }
+
+
+    public static void sendHttpRequest(final Context context,final String urlStr, final HttpCallbackListener listener){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(urlStr);
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
                     InputStream in = connection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     StringBuffer response = new StringBuffer();
