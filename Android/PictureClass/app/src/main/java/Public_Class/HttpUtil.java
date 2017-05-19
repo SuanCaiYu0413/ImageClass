@@ -1,6 +1,8 @@
 package Public_Class;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Looper;
 import android.util.Log;
 
@@ -18,6 +20,7 @@ import java.net.URL;
 import java.util.Date;
 
 import InterFace.HttpCallbackListener;
+import InterFace.HttpDownLoadListener;
 
 /**
  * Created by Administrator on 2017/5/6.
@@ -44,6 +47,7 @@ public class HttpUtil {
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod(method==POST?"POST":"GET");
                     connection.setConnectTimeout(8000);
+//                    connection.setRequestProperty("Content-Type","application/json");
                     connection.setReadTimeout(8000);
                     if(method == POST){
                         DataOutputStream out = new DataOutputStream(connection.getOutputStream());
@@ -119,6 +123,37 @@ public class HttpUtil {
                     listener.onError(e);
                     Looper.loop();
                 }
+            }
+        }).start();
+    }
+
+    /**
+     * 获取网络图片
+     * @param imageurl 图片网络地址
+     * @return Bitmap 返回位图
+     */
+    public static void GetImageInputStream(final String imageurl,final HttpDownLoadListener listener){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL url;
+                HttpURLConnection connection=null;
+                Bitmap bitmap=null;
+                try {
+                    url = new URL(imageurl);
+                    connection=(HttpURLConnection)url.openConnection();
+                    connection.setConnectTimeout(6000); //超时设置
+                    connection.setDoInput(true);
+                    connection.setUseCaches(false); //设置不使用缓存
+                    InputStream inputStream=connection.getInputStream();
+                    bitmap= BitmapFactory.decodeStream(inputStream);
+                    inputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Looper.prepare();
+                listener.onDownLoad(bitmap);
+                Looper.loop();
             }
         }).start();
     }

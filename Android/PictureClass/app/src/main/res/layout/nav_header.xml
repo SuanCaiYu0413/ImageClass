@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/username"
+        android:id="@+id/header_username"
         android:layout_toRightOf="@+id/header_pic"
         android:text="来到南航我们吃啥子"
         android:textColor="#FFF"

@@ -1,6 +1,7 @@
 package com.android.scy.pictureclass;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -121,6 +122,7 @@ public class ForgetPassword extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"重置密码失败,未知错误",Toast.LENGTH_SHORT).show();
                 mHandler.sendEmptyMessage(0);
             }
+
         });
     }
 
@@ -169,6 +171,8 @@ public class ForgetPassword extends AppCompatActivity {
             public void onError(Exception e) {
                 Toast.makeText(getApplicationContext(),"获取验证码失败，未知错误",Toast.LENGTH_SHORT).show();
             }
+
+
         });
     }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginLeft="17dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="职业"
+        android:id="@+id/item_modify_career_title" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:id="@+id/item_modify_career_edit"
+        android:background="@null"
+        android:textSize="15sp"
+        android:hint="填写职业"
+        android:layout_marginLeft="17dp" />
+</LinearLayout>

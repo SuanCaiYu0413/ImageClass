@@ -117,6 +117,10 @@ public class UCenter extends AppCompatActivity implements AdapterView.OnItemClic
                 Intent rePwd = new Intent(this,ForgetPassword.class);
                 startActivityForResult(rePwd,1);
                 break;
+            case "信息修改":
+                Intent modify = new Intent(this,ModifyInfo.class);
+                startActivity(modify);
+                break;
         }
     }
 
