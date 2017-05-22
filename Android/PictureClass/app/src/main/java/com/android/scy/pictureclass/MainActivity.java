@@ -3,6 +3,8 @@ package com.android.scy.pictureclass;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,13 +32,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 
 import InterFace.HttpCallbackListener;
+import InterFace.HttpDownLoadListener;
 import Public_Class.DataCache;
 import Public_Class.HttpUtil;
+import Public_Class.initApp;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     final private int DAY_IMG = 0;
@@ -76,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        initApp.initApplication(getApplicationContext());
         initActivty();
         dayImg();
     }
@@ -105,20 +116,27 @@ public class MainActivity extends AppCompatActivity {
             public void onError(Exception e) {
 
             }
+
         });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        final String phoneNumber = DataCache.getString("phoneNumber", context);
         String userName = DataCache.getString("userName", context);
         String sid = DataCache.getString("sid", context);
-        String phoneNumber = DataCache.getString("phoneNumber", context);
-        if(!(userName != null && sid != null && phoneNumber != null)){
+        if(userName == null || sid == null || phoneNumber == null){
             Intent welcome = new Intent(this,Welcome.class);
             startActivity(welcome);
             finish();
         }
+        View headerLayout = mNavigationView.getHeaderView(0);
+        CircleImageView headerPic = (CircleImageView) headerLayout.findViewById(R.id.header_pic);
+        TextView headerUsername = (TextView) headerLayout.findViewById(R.id.header_username);
+        final File file = new File(getExternalCacheDir(),DataCache.getString("phoneNumber",getApplicationContext()).trim()+".jpg");
+        headerPic.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
+        headerUsername.setText(DataCache.getString("userName",getApplicationContext()));
     }
 
     private void initActivty() {
@@ -138,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.me:
                         Toast.makeText(context, "个人中心", Toast.LENGTH_SHORT).show();
-                        Intent ucenter = new Intent(getApplicationContext(), UCenter.class);
+                        Intent ucenter = new Intent(getApplicationContext(), ModifyInfo.class);
                         startActivity(ucenter);
                         break;
                     case R.id.biaoqian:

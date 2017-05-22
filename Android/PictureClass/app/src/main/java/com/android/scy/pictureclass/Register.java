@@ -1,5 +1,6 @@
 package com.android.scy.pictureclass;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -131,6 +132,8 @@ public class Register extends AppCompatActivity {
             public void onError(Exception e) {
                 Toast.makeText(getApplicationContext(),"获取验证码失败，未知错误",Toast.LENGTH_SHORT).show();
             }
+
+
         });
     }
 
@@ -161,6 +164,8 @@ public class Register extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"注册失败,未知错误",Toast.LENGTH_SHORT).show();
                 mHandler.sendEmptyMessage(0);
             }
+
+
         });
     }
 

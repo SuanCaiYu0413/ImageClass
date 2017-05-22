@@ -2,6 +2,7 @@ package com.android.scy.pictureclass;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,6 +60,7 @@ public class Login extends AppCompatActivity {
             }
         }
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +74,8 @@ public class Login extends AppCompatActivity {
         loginBtnRight.setText("注册");
         context = getApplicationContext();
         loginIntent = getIntent();
-        String number = DataCache.getString("phoneNumber",context);
-        if(number != null){
+        String number = DataCache.getString("phoneNumber", context);
+        if (number != null) {
             loginUsername.getEditText().setText(number);
         }
         loginToolbar.setNavigationIcon(R.drawable.back);
@@ -89,14 +91,14 @@ public class Login extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_btnRight:
-                Intent registerActivityIntent = new Intent(this,Register.class);
+                Intent registerActivityIntent = new Intent(this, Register.class);
                 startActivity(registerActivityIntent);
                 break;
             case R.id.btn_login:
                 userLogin();
                 break;
             case R.id.btn_forget:
-                Intent forgetActivityIntent = new Intent(this,ForgetPassword.class);
+                Intent forgetActivityIntent = new Intent(this, ForgetPassword.class);
                 startActivity(forgetActivityIntent);
                 break;
         }
@@ -108,7 +110,7 @@ public class Login extends AppCompatActivity {
         long timeStamp = new Date().getTime();
         btnLogin.setEnabled(false);
         btnLogin.setText("正在登陆...");
-        HttpUtil.sendHttpRequest(context,"timeStamp="+String.valueOf(timeStamp).toString().substring(0,10)+"&phoneNumber=" + uname + "&passWord=" + pwd, HttpUtil.POST, "Login", new HttpCallbackListener() {
+        HttpUtil.sendHttpRequest(context, "timeStamp=" + String.valueOf(timeStamp).toString().substring(0, 10) + "&phoneNumber=" + uname + "&passWord=" + pwd, HttpUtil.POST, "Login", new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
                 parseJSONWithJSONObject(response);
@@ -117,28 +119,30 @@ public class Login extends AppCompatActivity {
             @Override
             public void onError(Exception e) {
                 mHandler.sendEmptyMessage(0);
-                Toast.makeText(context,"登录失败，未知错误",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "登录失败，未知错误", Toast.LENGTH_SHORT).show();
             }
+
+
         });
     }
 
-    private void parseJSONWithJSONObject(String jsonData){
+    private void parseJSONWithJSONObject(String jsonData) {
         try {
             JSONObject jsonObject = new JSONObject(jsonData);
             String statusCode = jsonObject.getString("statusCode");
-            switch (statusCode){
+            switch (statusCode) {
                 case "200":
-                    DataCache.putString("phoneNumber",jsonObject.getString("phone"),context);
-                    DataCache.putString("userName",jsonObject.getString("userName"),context);
-                    DataCache.putString("sid",jsonObject.getString("sid"),context);
-                    Toast.makeText(context,"登录成功",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this,MainActivity.class);
+                    DataCache.putString("phoneNumber", jsonObject.getString("phone"), context);
+                    DataCache.putString("userName", jsonObject.getString("userName"), context);
+                    DataCache.putString("sid", jsonObject.getString("sid"), context);
+                    Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     setResult(1);
                     finish();
                     break;
                 default:
-                    StatusCodeDealWith.showDealWith(statusCode,context);
+                    StatusCodeDealWith.showDealWith(statusCode, context);
                     mHandler.sendEmptyMessage(0);
                     break;
             }
@@ -150,7 +154,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode){
+        switch (resultCode) {
             case 5:
                 finish();
                 break;
