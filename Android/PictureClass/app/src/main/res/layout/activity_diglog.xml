@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_diglog"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/linearbg"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    tools:context="com.android.scy.pictureclass.Diglog">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:textColor="#FFF"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="提示"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="left"
+        android:textColor="#FFF"
+        android:id="@+id/diglog_msg"
+        android:text="确定删除此标签吗?"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="0sp"
+            android:layout_weight="1"
+            android:text="确定"
+            android:id="@+id/diglog_btn_ok"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="0sp"
+            android:layout_weight="1"
+            android:id="@+id/diglog_btn_cancel"
+            android:text="取消"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

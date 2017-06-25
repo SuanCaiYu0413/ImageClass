@@ -4,7 +4,7 @@
     android:id="@+id/activity_avatar_diglog"
     android:layout_width="240dp"
     android:layout_height="wrap_content"
-    android:background="#7e000000"
+    android:background="@drawable/linearbg"
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center_horizontal"

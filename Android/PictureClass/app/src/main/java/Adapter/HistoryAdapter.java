@@ -19,10 +19,10 @@ import Model.HistoryLabel;
  * Created by Administrator on 2017/5/2.
  */
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> implements View.OnClickListener {
     private List<HistoryLabel> pictures;
     private Context mContext;
-
+    private OnItemClickListener mOnItemClickListener = null;
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.picture_list,parent,false);
@@ -30,6 +30,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         if(mContext==null) {
             mContext = parent.getContext();
         }
+        v.setOnClickListener(this);
         return holder;
     }
 
@@ -43,11 +44,22 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             labels += "#" + picInfo.getLabel()[i] + " ";
         }
         holder.labels.setText(labels);
+        holder.itemView.setTag(position);
     }
-
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
     @Override
     public int getItemCount() {
         return pictures.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mOnItemClickListener != null) {
+            //注意这里使用getTag方法获取position
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -63,5 +75,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
     public HistoryAdapter(List<HistoryLabel> pics){
         pictures = pics;
+    }
+
+    public static interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 }

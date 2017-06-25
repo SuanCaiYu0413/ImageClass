@@ -1,10 +1,12 @@
 package Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/5/2.
  */
 
-public class HistoryLabel {
+public class HistoryLabel implements Serializable {
     private String imgid;
     private String date;
     private String imgname;

@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.app_title)
     TextView title;
     InputMethodManager imm;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -134,9 +135,10 @@ public class MainActivity extends AppCompatActivity {
         View headerLayout = mNavigationView.getHeaderView(0);
         CircleImageView headerPic = (CircleImageView) headerLayout.findViewById(R.id.header_pic);
         TextView headerUsername = (TextView) headerLayout.findViewById(R.id.header_username);
-        final File file = new File(getExternalCacheDir(),DataCache.getString("phoneNumber",getApplicationContext()).trim()+".jpg");
-        headerPic.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
-        headerUsername.setText(DataCache.getString("userName",getApplicationContext()));
+        if(DataCache.getString("phoneNumber",getApplicationContext())!=null){
+            Glide.with(context).load("http://119.29.194.163/tp/UserPhoto/Photo/"+DataCache.getString("phoneNumber",context).trim()+".jpg").into(headerPic);
+            headerUsername.setText(DataCache.getString("userName",getApplicationContext()));
+        }
     }
 
     private void initActivty() {
@@ -155,12 +157,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.me:
-                        Toast.makeText(context, "个人中心", Toast.LENGTH_SHORT).show();
                         Intent ucenter = new Intent(getApplicationContext(), ModifyInfo.class);
                         startActivity(ucenter);
                         break;
                     case R.id.biaoqian:
-                        Intent intent = new Intent(context, SetLabel.class);
+                        Intent intent = new Intent(context, AddLabelActivity.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                         }
@@ -171,11 +172,15 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent_history, ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
                         }
                         break;
+                    case R.id.CloudTag:
+                        Intent tagCloud = new Intent(context,TagCloudActivity.class);
+                        startActivity(tagCloud);
+                        break;
                     case R.id.LableTree:
-                        Toast.makeText(context, "标签树", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"暂未实现功能",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.About:
-                        Toast.makeText(context, "关于", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"暂未实现功能",Toast.LENGTH_SHORT).show();
                         break;
                 }
                 mDrawerLayout.closeDrawers();

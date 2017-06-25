@@ -1,0 +1,136 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
+
+
+// This is the library version used when deploying the artifact
+version = "1.0.2"
+group = "com.github.kingideayou"                                        // Maven Group ID for the artifact
+
+def siteUrl = 'https://github.com/kingideayou/TagCloudView'      // Homepage URL of the library
+def gitUrl = 'https://github.com/kingideayou/TagCloudView.git'   // Git repository URL
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 22
+        versionCode 2
+        versionName version
+
+    }
+    buildTypes {
+    }
+}
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "tag-cloud-view" //bintray 名字
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                group 'com.github.kingideayou'
+                version '1.0.2'
+                packaging 'aar'
+                artifactId 'tag-cloud-view'
+
+                // Add your description here
+                name 'A tag cloud which support singleline mode on Android'
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'kingideayou'
+                        name 'kingideayou'
+                        email 'kingideayou@foxmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+
+                }
+            }.writeTo("build/publications/maven/pom-default.xml")
+        }
+    }
+}
+
+/*
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'tag-cloud-view'
+
+    publishedGroupId = 'com.github.kingideayou'
+    libraryName = 'TagCloudView'
+    artifact = 'tag-cloud-view'
+
+    libraryDescription = 'A tac cloud which support singleline mode on Android'
+
+    siteUrl = 'https://github.com/kingideayou/TagCloudView'
+    gitUrl = 'https://github.com/kingideayou/TagCloudView.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'kingideayou'
+    developerName = 'kingideayou'
+    developerEmail = 'kingideayou@foxmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+*/
+
+dependencies {
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
+}

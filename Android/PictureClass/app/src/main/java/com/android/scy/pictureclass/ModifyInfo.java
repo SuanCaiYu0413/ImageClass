@@ -20,6 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +87,7 @@ public class ModifyInfo extends AppCompatActivity {
     private final int CHOOSEOK = 1;
     private final int GETHOBBY = 3;
     String hobbyLIst = null;
+    List<Integer> childId = new ArrayList<>();
     List<HobbyLabel> hobbyList = new ArrayList<>();
     Handler myHandler = new Handler() {
         @Override
@@ -93,21 +96,26 @@ public class ModifyInfo extends AppCompatActivity {
             switch (msg.what) {
                 case CHOOSEOK:
                     Bundle b = msg.getData();
-                    String imgPath = b.getString("imgPath");
-                    Bitmap bitmap = BitmapFactory.decodeFile(imgPath);
-                    headerPicUcenter.setImageBitmap(bitmap);
+                    Glide.with(getApplicationContext()).load("http://119.29.194.163/tp/UserPhoto/Photo/"+DataCache.getString("phoneNumber",getApplicationContext()).trim()+".jpg").into(headerPicUcenter);
                     Toast.makeText(getApplicationContext(), "头像修改成功", Toast.LENGTH_SHORT).show();
                     break;
                 case CHOOSENO:
                     Toast.makeText(getApplicationContext(), "头像修改失败", Toast.LENGTH_SHORT).show();
                     break;
                 case GETHOBBY:
+                    for(int i=0;i<childId.size();i++){
+                        modifyHobbyList.removeView(findViewById(childId.get(i)));
+                        Log.d("remove",i+"");
+                    }
+                    childId.clear();
                     for (int i=0;i<hobbyList.size();i++){
                         TextView hobbyText = new TextView(getApplicationContext());
                         hobbyText.setText(hobbyList.get(i).getName().toString());
                         hobbyText.setBackgroundColor(Color.rgb(236, 236, 236));
                         hobbyText.setTextColor(Color.rgb(102, 102, 102));
                         hobbyText.setTextSize(18);
+                        hobbyText.setId(hobbyList.get(i).getId()+123);
+                        childId.add(hobbyList.get(i).getId()+123);
                         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
                         param.setMargins(50,0,0,0);
                         hobbyText.setLayoutParams(param);
@@ -145,21 +153,15 @@ public class ModifyInfo extends AppCompatActivity {
         itemModifyCareerEdit.setText(profession == null ? "" : profession);
         String phoneNumber = DataCache.getString("phoneNumber", getApplicationContext());
         if (phoneNumber != null) {
-            final File file = new File(getExternalCacheDir(), phoneNumber.trim() + ".jpg");
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
-            headerPicUcenter.setImageBitmap(bitmap);
+            Glide.with(getApplicationContext()).load("http://119.29.194.163/tp/UserPhoto/Photo/"+phoneNumber+".jpg").into(headerPicUcenter);
         }
-        getHobbyList();
     }
 
     @OnClick({R.id.item_modify_hobby, R.id.modify_cleancache,R.id.modify_btnRight, R.id.modify_exit, R.id.modify_repwd, R.id.header_xuanze})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.item_modify_hobby:
-                Intent hobby = new Intent(this, hobbyActivity.class);
-                Bundle b = new Bundle();
-                b.putString("hobbyList",hobbyLIst);
-                hobby.putExtra("value",b);
+                Intent hobby = new Intent(this, TagCloudActivity.class);
                 startActivityForResult(hobby, 0);
                 break;
             case R.id.modify_cleancache:
@@ -238,6 +240,12 @@ public class ModifyInfo extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+//        getHobbyList();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
@@ -287,46 +295,5 @@ public class ModifyInfo extends AppCompatActivity {
             }
 
         });
-    }
-
-    public void getHobbyList() {
-        HttpUtil.sendHttpRequest(getApplicationContext(), "", HttpUtil.GET, "UserInfo/getHobby", new HttpCallbackListener() {
-            @Override
-            public void onFinish(String response) {
-                try {
-                    JSONObject hobby = new JSONObject(response);
-                    if(hobby.getString("statusCode").equals("200")){
-                        hobbyLIst = hobby.getString("hobby");
-                        String localHobby = DataCache.getString("hobbyList",getApplicationContext());
-                        String[] a = localHobby.split("--");
-                        Log.e("e",localHobby);
-                        Log.e("a",String.valueOf(a.length));
-                        for(int i=0;i<a.length;i++){
-                            Log.d("asd",a[i]);
-                            JSONArray ja = new JSONArray(hobbyLIst);
-                            HobbyLabel h = null;
-                            for(int j=0;j<ja.length();j++){
-                                JSONObject hobbyJo = ja.getJSONObject(j);
-                                if(hobbyJo.getString("hobby_id").trim().equals(a[i])){
-                                    h = new HobbyLabel(hobbyJo.getString("hobby").trim(),Integer.parseInt(a[i]));
-                                }
-                            }
-                            hobbyList.add(h);
-                        }
-                        myHandler.sendEmptyMessage(GETHOBBY);
-                    }else {
-                        StatusCodeDealWith.showDealWith(hobby.getString("statusCode"),getApplicationContext());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        return ;
     }
 }

@@ -3,8 +3,9 @@
     package="com.android.scy.pictureclass">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -54,7 +55,16 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".AvatarDiglog"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
+        <activity
+            android:name=".Diglog"
+            android:theme="@style/MyDialogStyle" />
+        <activity
+            android:name=".TagCloudActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AddLabelActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

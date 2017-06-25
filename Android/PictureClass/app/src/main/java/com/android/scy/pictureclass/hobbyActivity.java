@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
 
@@ -111,7 +112,9 @@ public class hobbyActivity extends AppCompatActivity {
     public void onViewClicked() {
         if(Change.size() < 1) return;
         JSONArray hobby = new JSONArray();
+        String changeList = "";
         for (int i= 0;i<Change.size();i++){
+            changeList += i==Change.size()-1?Change.get(i)+"":Change.get(i)+"--";
             JSONObject hobbyItem = new JSONObject();
             try {
                 hobbyItem.put("hobbyId",Change.get(i));
@@ -120,11 +123,24 @@ public class hobbyActivity extends AppCompatActivity {
             }
             hobby.put(hobbyItem);
         }
+        Log.d("save",changeList);
+        DataCache.putString("hobbyList",changeList,getApplicationContext());
         String parma = "phoneNumber="+ DataCache.getString("phoneNumber",getApplicationContext()).trim()+"&hobby="+String.valueOf(hobby);
         Log.d("tag",parma);
         HttpUtil.sendHttpRequest(getApplicationContext(), parma, HttpUtil.POST, "UserInfo/setUserHobby", new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
+                JSONObject reJson = null;
+                try {
+                    reJson = new JSONObject(response);
+                    if(reJson.getString("statusCode").equals("200")){
+                        Toast.makeText(getApplicationContext(),"保存成功",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
             }
 

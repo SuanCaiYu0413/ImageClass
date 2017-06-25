@@ -50,7 +50,7 @@ public class CleanCacheDiglog extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.clean_cache_ok:
-                ch.cleanInternalCache(context);
+                ch.cleanApplicationData(context);
                 Toast.makeText(context,"清除成功",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
