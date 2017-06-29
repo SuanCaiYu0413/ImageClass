@@ -56,7 +56,7 @@ $('#form').diyUpload({
     我们将计算出该图片所有标签的威尔逊置信区间最小值进行排序，当第5个标签的置信区间最小值为20时，
     我们认为该图片已经达到预期值，取出前五个标签作为该图片的最终标签。
 
-![威尔逊最小值](http://42.123.127.93:10080/SuanCaiYu/Image_Classification/tree/master/Images/WilsonMin.png)
+![WilsonMin](http://119.29.194.163/WilsonMin.png)
 ```
 //获取威尔逊置信区间最小值
 function getWilsonMin($picId,$labelId){
@@ -83,15 +83,37 @@ function getWilsonMin($picId,$labelId){
     在词林中寻找该词是否存在同义词，如果存在，则将该词替换成标签库中已存在的标签词。
 
 * * *
+#### **- 图片标签获取接口**
+
+    获取所有图片ID:http://114.115.220.20/tp/ImgGet/idList
+
+```
+//返回事例
+[{picture_id: "64", name: "1ba9e.jpeg"}, {picture_id: "65", name: "1ba9e.jpg"},…]
+```
+    根据Id获取图片属性:http://114.115.220.20/tp/ImgGet/picGet?picture_id=90
+
+```
+//返回事例
+{
+	finish_time:"2017-06-25 12:51:33"
+	labels:["建筑", "房屋", "天空", "树木", "湖", "山"]
+	picture_name:"65531.jpg"
+}
+```
 
 #### **- 源代码参考**
 
 * * *
-* [前端安卓源代码](http://42.123.127.93:10080/SuanCaiYu/Image_Classification/tree/master/Android/PictureClass)
+* [安卓源代码](http://42.123.127.93:10080/SuanCaiYu/Image_Classification/tree/master/Android/PictureClass)
 * [Server端ThinkPHP代码](http://42.123.127.93:10080/SuanCaiYu/Image_Classification/tree/master/Server)
 * [项目文档](http://42.123.127.93:10080/SuanCaiYu/Image_Classification/tree/master/Doc)
+* [App下载](http://42.123.127.93:10080/SuanCaiYu/Image_Classification/tree/master/App)
+* [视频演示1](http://www.bilibili.com/video/av11720485/) -（推荐）
+* [视频演示2](http://119.29.194.163/video/)
 
 * * *
+
 #### **- 团队成员**
 
 * * *
